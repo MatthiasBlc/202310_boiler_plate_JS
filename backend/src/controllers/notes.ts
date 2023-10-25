@@ -105,3 +105,23 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
   }
 
 };
+
+export const deleteNote: RequestHandler = async (req, res, next) => {
+  const noteId = req.params.noteId;
+
+  try {
+    const note = await prisma.note.delete({
+      where: { id: noteId },
+    })
+
+    if (!note) {
+      throw createHttpError(404, "Note not found");
+    }
+
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+
+  }
+
+};
