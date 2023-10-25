@@ -1,25 +1,15 @@
 import "dotenv/config"
 import express, { NextFunction, Request, Response } from "express";
-import prisma from './util/db'
+import notesRoutes from "./routes/notes";
 
 
 
 const app = express();
 
-app.get("/", async (req, res, next) => {
-  try {
-    // throw Error("Crash Test");
-    const notes = await prisma.note.findMany({
-      select: {
-        id: true,
-        title: true,
-      },
-    })
-    res.status(200).json(notes);
-  } catch (error) {
-    next(error);
-  }
-});
+app.use(express.json());
+
+
+app.use("/api/notes", notesRoutes);
 
 app.use((req, res, next) => {
   next(Error("Endpoint not found"));
