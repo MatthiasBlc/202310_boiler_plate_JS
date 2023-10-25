@@ -9,8 +9,8 @@ const port = env.PORT;
 
 
 async function main() {
-  app.listen(port, () => {
-    console.log("server running on port: " + port);
+  await app.listen(port, () => {
+    console.log(`server running on port: ${port}!`);
   })
 }
 
