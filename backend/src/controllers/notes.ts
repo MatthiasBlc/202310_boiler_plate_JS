@@ -67,3 +67,41 @@ export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknow
   }
 
 };
+
+interface UpdateNoteParams {
+  noteId: string;
+}
+
+interface UpdateNoteBody {
+  title?: string,
+  text?: string,
+}
+
+export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBody, unknown> = async (req, res, next) => {
+  const noteId = req.params.noteId;
+  const newTitle = req.body.title;
+  const newText = req.body.text;
+
+  try {
+    if (!newTitle || !newText) {
+      throw createHttpError(400, "Note must have a title and a text");
+    }
+
+    const updatedNote = await prisma.note.update({
+      where: { id: noteId },
+      data: {
+        title: newTitle,
+        text: newText,
+      }
+    })
+
+    if (!updatedNote) {
+      throw createHttpError(404, "Note not found");
+    }
+
+    res.status(200).json(updatedNote);
+  } catch (error) {
+    next(error);
+  }
+
+};
