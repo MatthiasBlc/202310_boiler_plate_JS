@@ -3,9 +3,13 @@ import express, { NextFunction, Request, Response } from "express";
 import notesRoutes from "./routes/notes";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
+import cors from "cors";
 
 
 const app = express();
+
+// cors needed for dev environment
+app.use(cors());
 
 app.use(morgan("dev"));
 
