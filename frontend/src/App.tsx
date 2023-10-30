@@ -17,6 +17,9 @@ function App() {
 
   return (
     <>
+      <h1 className="text-3xl font-bold text-red-500 underline text-center">
+        Hello world!
+      </h1>
       <div className="App">
         {notes.map((note) => (
           <Note note={note} key={note.id} />
