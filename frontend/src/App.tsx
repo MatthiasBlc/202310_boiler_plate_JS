@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Note } from "./models/note";
+import { Note as NoteModel } from "./models/note";
 import APIManager from "./services/api";
+import Note from "./components/Note/Note";
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<NoteModel[]>([]);
 
   useEffect(() => {
     const listNotes = async () => {
@@ -12,29 +13,14 @@ function App() {
       setNotes(data);
     };
     listNotes();
-    // async function loadNotes() {
-    //   try {
-    //     const response = await fetch("http://localhost:5000/api/notes", {
-    //       method: "GET",
-    //     });
-    //     console.log(response);
-
-    //     const notes = await response.json();
-    //     console.log(notes);
-    //     setNotes(notes);
-    //   } catch (error) {
-    //     console.error(error);
-    //     alert(error);
-    //   }
-    // }
-    // loadNotes();
   }, []);
 
   return (
     <>
       <div className="App">
-        hello
-        {JSON.stringify(notes)}
+        {notes.map((note) => (
+          <Note note={note} key={note.id} />
+        ))}
       </div>
     </>
   );
