@@ -10,6 +10,9 @@ export const getNotes: RequestHandler = async (req, res, next) => {
       select: {
         id: true,
         title: true,
+        text: true,
+        createdAt: true,
+        updatedAT: true,
       },
     })
     res.status(200).json(notes);
@@ -29,6 +32,9 @@ export const getNote: RequestHandler = async (req, res, next) => {
       select: {
         id: true,
         title: true,
+        text: true,
+        createdAt: true,
+        updatedAT: true,
       },
     })
 
