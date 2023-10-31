@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import "./App.css";
 import { Note as NoteModel } from "./models/note";
 import APIManager from "./services/api";
 import Note from "./components/Note/Note";

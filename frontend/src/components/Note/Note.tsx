@@ -21,10 +21,10 @@ const Note = ({ note, className }: NoteProps) => {
     <div
       className={`card w-96 bg-base-100 shadow-xl ${styles.noteCard} ${className}`}
     >
-      <div className={`card-body ${styles.cardBody}`}>
-        <h2 className={`card-title ${styles.cardText}`}>{title}</h2>
-        <p>{text}</p>
-        <div className="card-actions text-secondary">{createdUpdatedText}</div>
+      <div className={`card-body ${styles.cardBody} `}>
+        <h2 className={`card-title`}>{title}</h2>
+        <p className={`${styles.cardText} `}>{text}</p>
+        <div className="text-secondary">{createdUpdatedText}</div>
         <div className="card-actions justify-end">
           <button className="btn btn-primary">button</button>
         </div>
