@@ -17,14 +17,12 @@ function App() {
 
   return (
     <>
-      <div>
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {notes.map((note) => (
-            <div key={note.id}>
-              <Note note={note} className={styles.note} />
-            </div>
-          ))}
-        </div>
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {notes.map((note) => (
+          <div key={note.id}>
+            <Note note={note} className={styles.note} />
+          </div>
+        ))}
       </div>
     </>
   );

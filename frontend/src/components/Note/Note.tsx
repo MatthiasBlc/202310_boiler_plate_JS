@@ -12,9 +12,9 @@ const Note = ({ note, className }: NoteProps) => {
 
   let createdUpdatedText: string;
   if (updatedAT > createdAt) {
-    createdUpdatedText = "Updated: " + formatDate(updatedAT);
+    createdUpdatedText = `Updated: ${formatDate(updatedAT)}`;
   } else {
-    createdUpdatedText = "Created: " + formatDate(createdAt);
+    createdUpdatedText = `Created: ${formatDate(createdAt)}`;
   }
 
   return (
