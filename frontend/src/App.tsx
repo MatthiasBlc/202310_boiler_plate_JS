@@ -3,16 +3,16 @@ import { Note as NoteModel } from "./models/note";
 import APIManager from "./services/api";
 import Note from "./components/Note/Note";
 import styles from "./styles/NotesPage.module.css";
+import styleUtils from "./styles/utils.module.css";
 import AddNoteDialog from "./components/AddNoteDialog/AddNoteDialog";
-import Modal from "./components/Modal";
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
 
-  const [showAddNoteDialog, setShowAddNoteDialog] = useState(true);
+  const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const handleToggle = () => setOpen((prev) => !prev);
+  // const [open, setOpen] = useState(false);
+  // const handleToggle = () => setOpen((prev) => !prev);
 
   useEffect(() => {
     const listNotes = async () => {
@@ -25,6 +25,12 @@ function App() {
   return (
     <>
       <div>
+        <button
+          className={`mb-4 ${styleUtils.blockCenter}`}
+          onClick={() => setShowAddNoteDialog(true)}
+        >
+          Add new note
+        </button>
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {notes.map((note) => (
             <div key={note.id}>
@@ -32,29 +38,15 @@ function App() {
             </div>
           ))}
         </div>
-        {showAddNoteDialog && <AddNoteDialog />}
-
-        <div className="container">
-          {/* opens the modal */}
-          <button className="btn btn-primary" onClick={handleToggle}>
-            Hello
-          </button>
-          <Modal open={open} onClose={handleToggle}>
-            <h3 className="font-bold text-lg">
-              Congratulations random Internet user!
-            </h3>
-            <p className="py-4">
-              You havve been selected for a chance to get one year of
-              subscription to use Wikipedia for free!
-            </p>
-            <div className="modal-action">
-              {/* closes the modal */}
-              <button className="btn btn-primary" onClick={handleToggle}>
-                Yay!
-              </button>
-            </div>
-          </Modal>
-        </div>
+        {showAddNoteDialog && (
+          <AddNoteDialog
+            onDismiss={() => setShowAddNoteDialog(false)}
+            onNoteSaved={(newNote) => {
+              setNotes([...notes, newNote]);
+              setShowAddNoteDialog(false);
+            }}
+          />
+        )}
       </div>
     </>
   );

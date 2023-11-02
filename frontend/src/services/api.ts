@@ -30,10 +30,7 @@ export default class APIManager {
   }
 
   static async createNote(note: NoteInput): Promise<Note> {
-
-    const response = await API.post("/api/notes", {
-      note: JSON.stringify(note),
-    });
+    const response = await API.post("/api/notes", JSON.stringify(note));
     return response.data;
     // return response.json();
 
