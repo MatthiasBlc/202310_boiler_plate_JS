@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Note } from "../models/note";
 // import Cookies from "js-cookie";
 
 // const apiUrl = "https://epidaure-api-preprod.herokuapp.com";
@@ -17,9 +18,26 @@ API.interceptors.request.use(({ headers, ...config }) => ({
   },
 }));
 
+export interface NoteInput {
+  title: string,
+  text: string,
+}
+
 export default class APIManager {
   static async loadNotes() {
     const response = await API.get("/api/notes");
     return response.data;
   }
+
+  static async createNote(note: NoteInput): Promise<Note> {
+
+    const response = await API.post("/api/notes", {
+      note: JSON.stringify(note),
+    });
+    return response.data;
+    // return response.json();
+
+
+  }
+
 }

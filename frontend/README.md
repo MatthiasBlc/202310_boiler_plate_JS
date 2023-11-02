@@ -1,5 +1,9 @@
 # React + TypeScript + Vite
 
+Todo:
+troncate if text more than one line in cards
+api manager error manager
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
