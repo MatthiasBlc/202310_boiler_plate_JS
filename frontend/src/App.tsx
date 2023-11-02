@@ -24,30 +24,28 @@ function App() {
 
   return (
     <>
-      <div>
-        <button
-          className={`mb-4 ${styleUtils.blockCenter}`}
-          onClick={() => setShowAddNoteDialog(true)}
-        >
-          Add new note
-        </button>
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {notes.map((note) => (
-            <div key={note.id}>
-              <Note note={note} className={styles.note} />
-            </div>
-          ))}
-        </div>
-        {showAddNoteDialog && (
-          <AddNoteDialog
-            onDismiss={() => setShowAddNoteDialog(false)}
-            onNoteSaved={(newNote) => {
-              setNotes([...notes, newNote]);
-              setShowAddNoteDialog(false);
-            }}
-          />
-        )}
+      <button
+        className={`mb-4 ${styleUtils.blockCenter}`}
+        onClick={() => setShowAddNoteDialog(true)}
+      >
+        Add new note
+      </button>
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {notes.map((note) => (
+          <div key={note.id}>
+            <Note note={note} className={styles.note} />
+          </div>
+        ))}
       </div>
+      {showAddNoteDialog && (
+        <AddNoteDialog
+          onDismiss={() => setShowAddNoteDialog(false)}
+          onNoteSaved={(newNote) => {
+            setNotes([...notes, newNote]);
+            setShowAddNoteDialog(false);
+          }}
+        />
+      )}
     </>
   );
 }
