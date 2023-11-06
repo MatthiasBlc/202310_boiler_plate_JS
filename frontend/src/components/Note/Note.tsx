@@ -1,13 +1,16 @@
 import styles from "../../styles/Note.module.css";
+import styleUtils from "../../styles/utils.module.css";
 import { Note as NoteModel } from "../../models/note";
 import { formatDate } from "../../utils/format.Date";
+import { MdDelete } from "react-icons/md";
 
 interface NoteProps {
   note: NoteModel;
+  onDeleteNoteClicked: (note: NoteModel) => void;
   className?: string;
 }
 
-const Note = ({ note, className }: NoteProps) => {
+const Note = ({ note, onDeleteNoteClicked, className }: NoteProps) => {
   const { title, text, createdAt, updatedAT } = note;
 
   let createdUpdatedText: string;
@@ -22,7 +25,16 @@ const Note = ({ note, className }: NoteProps) => {
       className={`card w-96 bg-base-100 shadow-xl ${styles.noteCard} ${className}`}
     >
       <div className={`card-body ${styles.cardBody} `}>
-        <h2 className={`card-title`}>{title}</h2>
+        <h2 className={`card-title ${styleUtils.flexCenter}`}>
+          {title}{" "}
+          <MdDelete
+            className="text-secondary ms-auto"
+            onClick={(e: { stopPropagation: () => void }) => {
+              onDeleteNoteClicked(note);
+              e.stopPropagation();
+            }}
+          />
+        </h2>
         <p className={`${styles.cardText} `}>{text}</p>
         <div className="text-secondary">{createdUpdatedText}</div>
         <div className="card-actions justify-end">

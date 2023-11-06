@@ -22,6 +22,16 @@ function App() {
     listNotes();
   }, []);
 
+  async function deleteNote(note: NoteModel) {
+    try {
+      await APIManager.deleteNote(note.id);
+      setNotes(notes.filter((existingNote) => existingNote.id !== note.id));
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  }
+
   return (
     <>
       <button
@@ -33,7 +43,11 @@ function App() {
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {notes.map((note) => (
           <div key={note.id}>
-            <Note note={note} className={styles.note} />
+            <Note
+              note={note}
+              onDeleteNoteClicked={deleteNote}
+              className={styles.note}
+            />
           </div>
         ))}
       </div>

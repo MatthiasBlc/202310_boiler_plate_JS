@@ -36,7 +36,7 @@ export default class APIManager {
   }
 
   static async deleteNote(noteId: string) {
-    const response = await API.delete("/api/notes" + noteId)
+    const response = await API.delete("/api/notes/" + noteId)
     return response.data;
 
   }
