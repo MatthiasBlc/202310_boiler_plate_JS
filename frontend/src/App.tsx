@@ -9,20 +9,27 @@ import { FaPlus } from "react-icons/fa";
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
+  const [notesLoading, setNotesLoading] = useState(true);
+  const [showNotesLoadingError, setShowNotesLoadingError] = useState(false);
 
   const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
-
   const [noteToEdit, setNoteToEdit] = useState<NoteModel | null>(null);
 
-  // const [open, setOpen] = useState(false);
-  // const handleToggle = () => setOpen((prev) => !prev);
-
   useEffect(() => {
-    const listNotes = async () => {
-      const data = await APIManager.loadNotes();
-      setNotes(data);
-    };
-    listNotes();
+    async function loadNotes() {
+      try {
+        setShowNotesLoadingError(false);
+        setNotesLoading(true);
+        const data = await APIManager.loadNotes();
+        setNotes(data);
+      } catch (error) {
+        console.log(error);
+        setShowNotesLoadingError(true);
+      } finally {
+        setNotesLoading(false);
+      }
+    }
+    loadNotes();
   }, []);
 
   async function deleteNote(note: NoteModel) {
@@ -35,50 +42,70 @@ function App() {
     }
   }
 
+  const notesGrid = (
+    <div
+      className={`grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${styles.notesGrid}`}
+    >
+      {notes.map((note) => (
+        <div key={note.id}>
+          <Note
+            note={note}
+            onNoteClicked={setNoteToEdit}
+            onDeleteNoteClicked={deleteNote}
+            className={styles.note}
+          />
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <>
-      <button
-        className={`mb-4 ${styleUtils.blockCenter} ${styleUtils.flexCenter}`}
-        onClick={() => setShowAddNoteDialog(true)}
-      >
-        <FaPlus />
-        Add new note
-      </button>
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {notes.map((note) => (
-          <div key={note.id}>
-            <Note
-              note={note}
-              onNoteClicked={setNoteToEdit}
-              onDeleteNoteClicked={deleteNote}
-              className={styles.note}
-            />
-          </div>
-        ))}
+      <div className={` ${styles.notesPage}`}>
+        <button
+          className={`mb-4 ${styleUtils.blockCenter} ${styleUtils.flexCenter}`}
+          onClick={() => setShowAddNoteDialog(true)}
+        >
+          <FaPlus />
+          Add new note
+        </button>
+        {notesLoading && (
+          <span className="loading loading-spinner loading-lg"></span>
+        )}
+        {showNotesLoadingError && (
+          <p>Something went wrong. Please refresh the page</p>
+        )}
+        {!notesLoading && !showNotesLoadingError && (
+          <>
+            {notes.length > 0 ? notesGrid : <p>You don't have any note yet</p>}
+          </>
+        )}
+        {showAddNoteDialog && (
+          <AddEditNoteDialog
+            onDismiss={() => setShowAddNoteDialog(false)}
+            onNoteSaved={(newNote) => {
+              setNotes([...notes, newNote]);
+              setShowAddNoteDialog(false);
+            }}
+          />
+        )}
+        {noteToEdit && (
+          <AddEditNoteDialog
+            noteToEdit={noteToEdit}
+            onDismiss={() => setNoteToEdit(null)}
+            onNoteSaved={(updatedNote) => {
+              setNotes(
+                notes.map((existingNote) =>
+                  existingNote.id === updatedNote.id
+                    ? updatedNote
+                    : existingNote
+                )
+              );
+              setNoteToEdit(null);
+            }}
+          />
+        )}
       </div>
-      {showAddNoteDialog && (
-        <AddEditNoteDialog
-          onDismiss={() => setShowAddNoteDialog(false)}
-          onNoteSaved={(newNote) => {
-            setNotes([...notes, newNote]);
-            setShowAddNoteDialog(false);
-          }}
-        />
-      )}
-      {noteToEdit && (
-        <AddEditNoteDialog
-          noteToEdit={noteToEdit}
-          onDismiss={() => setNoteToEdit(null)}
-          onNoteSaved={(updatedNote) => {
-            setNotes(
-              notes.map((existingNote) =>
-                existingNote.id === updatedNote.id ? updatedNote : existingNote
-              )
-            );
-            setNoteToEdit(null);
-          }}
-        />
-      )}
     </>
   );
 }
