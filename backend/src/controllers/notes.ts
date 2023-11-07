@@ -6,6 +6,7 @@ import createHttpError from "http-errors";
 
 export const getNotes: RequestHandler = async (req, res, next) => {
   try {
+
     const notes = await prisma.note.findMany({
       select: {
         id: true,
