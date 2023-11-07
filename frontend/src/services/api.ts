@@ -35,12 +35,15 @@ export default class APIManager {
     // return response.json();
   }
 
+  static async updateNote(noteId: string, note: NoteInput): Promise<Note> {
+    const response = await API.patch("/api/notes/" + noteId, JSON.stringify(note));
+    return response.data;
+  }
+
   static async deleteNote(noteId: string) {
     const response = await API.delete("/api/notes/" + noteId)
     return response.data;
-
   }
-
 
 
 }

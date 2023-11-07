@@ -6,11 +6,17 @@ import { MdDelete } from "react-icons/md";
 
 interface NoteProps {
   note: NoteModel;
+  onNoteClicked: (note: NoteModel) => void;
   onDeleteNoteClicked: (note: NoteModel) => void;
   className?: string;
 }
 
-const Note = ({ note, onDeleteNoteClicked, className }: NoteProps) => {
+const Note = ({
+  note,
+  onNoteClicked,
+  onDeleteNoteClicked,
+  className,
+}: NoteProps) => {
   const { title, text, createdAt, updatedAT } = note;
 
   let createdUpdatedText: string;
@@ -23,6 +29,7 @@ const Note = ({ note, onDeleteNoteClicked, className }: NoteProps) => {
   return (
     <div
       className={`card w-96 bg-base-100 shadow-xl ${styles.noteCard} ${className}`}
+      onClick={() => onNoteClicked(note)}
     >
       <div className={`card-body ${styles.cardBody} `}>
         <h2 className={`card-title ${styleUtils.flexCenter}`}>
