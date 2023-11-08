@@ -5,6 +5,11 @@ import userRoutes from "./routes/users";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
+import session from "express-session";
+import env from "./util/validateEnv";
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
+import { PrismaClient } from "@prisma/client";
+// is it ok to have a new prisma client here ?
 
 
 const app = express();
@@ -15,6 +20,24 @@ app.use(cors());
 app.use(morgan("dev"));
 
 app.use(express.json());
+
+app.use(session({
+  secret: env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 60 * 60 * 1000,
+  },
+  rolling: true,
+  store: new PrismaSessionStore(
+    new PrismaClient(),
+    {
+      checkPeriod: 2 * 60 * 1000,  //ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }
+  )
+}));
 
 app.use("/api/users", userRoutes);
 app.use("/api/notes", notesRoutes);
