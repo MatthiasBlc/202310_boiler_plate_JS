@@ -11,8 +11,10 @@ datasource db {
 }
 
 model User {
-  id   String @id @default(uuid())
-  name String
+  id       String @id @default(uuid())
+  username String
+  email    String
+  password String
 }
 
 model Note {
