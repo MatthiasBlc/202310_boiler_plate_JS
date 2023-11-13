@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import Modal from "../Modal";
 import { Note } from "../../models/note";
 import APIManager, { NoteInput } from "../../services/api";
+import TextInputField from "../form/TextInputField";
 
 interface AddEditNoteDialogProps {
   noteToEdit?: Note;
@@ -46,33 +47,30 @@ const AddEditNoteDialog = ({
         <h3 className="font-bold text-lg">
           {noteToEdit ? "Edit note" : "Add note"}{" "}
         </h3>
-        <p className="py-4">modal content text for test</p>
         <form id="addEditNoteForm" onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Title</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Title"
-              className="input input-bordered w-full max-w-xs"
-              required
-              {...register("title", { required: "Required" })}
-            />
-            {/* need a feedback for required */}
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Text</span>
-            </label>
-            <textarea
-              className="textarea textarea-bordered h-24"
-              placeholder="Text"
-              required
-              {...register("text", { required: "Required" })}
-            />
-            {/* need a feedback for required */}
-          </div>
+          <TextInputField
+            name="title"
+            label="Title"
+            type="text"
+            placeholder="Title"
+            className="input input-bordered w-full max-w-xs"
+            required
+            register={register}
+            registerOptions={{ required: "Required" }}
+
+          />
+          <TextInputField
+            name="text"
+            label="Text"
+            type="textarea"
+            placeholder="Text"
+            textAreaField
+            className="textarea textarea-bordered h-24"
+            required
+            register={register}
+            registerOptions={{ required: "Required" }}
+
+          />
         </form>
 
         <div className="modal-action">

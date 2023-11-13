@@ -6,7 +6,7 @@ import { User } from "../models/user";
 // const apiUrl = "https://epidaure-api-preprod.herokuapp.com";
 const apiUrl = "http://localhost:5000";
 // eslint-disable-next-line react-refresh/only-export-components
-const API = axios.create({ baseURL: apiUrl });
+const API = axios.create({ withCredentials: true, baseURL: apiUrl });
 
 API.interceptors.request.use(({ headers, ...config }) => ({
   ...config,
@@ -64,7 +64,7 @@ export default class APIManager {
   // --------------- Users ---------------
   // Need credentials in the header if front and back are on differents domain / sub-domains
   static async getLoggedInUser(): Promise<User> {
-    const response = await API.get("/api/notes");
+    const response = await API.get("/api/users");
     return response.data;
   }
 

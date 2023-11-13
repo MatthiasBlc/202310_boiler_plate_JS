@@ -15,7 +15,7 @@ import { PrismaClient } from "@prisma/client";
 const app = express();
 
 // cors needed for dev environment
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 app.use(morgan("dev"));
 
