@@ -9,6 +9,7 @@ import session from "express-session";
 import env from "./util/validateEnv";
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from "@prisma/client";
+import { requireAuth } from "./middleware/auth";
 // is it ok to have a new prisma client here ?
 
 
@@ -40,7 +41,7 @@ app.use(session({
 }));
 
 app.use("/api/users", userRoutes);
-app.use("/api/notes", notesRoutes);
+app.use("/api/notes", requireAuth, notesRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Endpoint not found"));
