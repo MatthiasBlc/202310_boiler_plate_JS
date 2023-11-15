@@ -4,16 +4,11 @@ import prisma from "../util/db";
 import bcrypt from "bcrypt";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
-  const authenticatedUserId = req.session.userId;
 
   try {
-    if (!authenticatedUserId) {
-      throw createHttpError(401, "User not authenticated");
-    }
-
     const user = await prisma.user.findUnique({
       where: {
-        id: authenticatedUserId,
+        id: req.session.userId,
       },
       select: {
         username: true,
