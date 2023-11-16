@@ -1,7 +1,7 @@
-import { User } from "../../models/user";
-import NavBarLoggedInView from "../NavBarLoggedInView/NavBarLoggedInView";
-import NavBarLoggedOutView from "../NavBarLoggedOutView/NavBarLoggedOutView";
 import { Link } from "react-router-dom";
+import { User } from "../../models/user";
+import NavBarLoggedInView from "./NavBarLoggedInView/NavBarLoggedInView";
+import NavBarLoggedOutView from "./NavBarLoggedOutView/NavBarLoggedOutView";
 
 interface NavBarProps {
   loggedInUser: User | null;

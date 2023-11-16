@@ -1,5 +1,5 @@
-import { User } from "../../models/user";
-import APIManager from "../../network/api";
+import { User } from "../../../models/user";
+import APIManager from "../../../network/api";
 
 interface NavBarLoggedInViewProps {
   user: User;
@@ -23,11 +23,9 @@ const NavBarLoggedInView = ({
   return (
     <>
       <div className="flex-none">
-        {/* <ul className=""> */}
         <a className="btn btn-ghost normal-case text-xl">
           Signed in as: {user.username}
         </a>
-        {/* </ul> */}
       </div>
       <button className="btn btn-square btn-ghost" onClick={logout}>
         Log out
