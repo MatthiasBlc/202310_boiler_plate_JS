@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import Modal from "../Modal";
 import { Note } from "../../models/note";
-import APIManager, { NoteInput } from "../../services/api";
+import APIManager, { NoteInput } from "../../network/api";
 import TextInputField from "../form/TextInputField";
 
 interface AddEditNoteDialogProps {
@@ -57,7 +57,6 @@ const AddEditNoteDialog = ({
             required
             register={register}
             registerOptions={{ required: "Required" }}
-
           />
           <TextInputField
             name="text"
@@ -69,7 +68,6 @@ const AddEditNoteDialog = ({
             required
             register={register}
             registerOptions={{ required: "Required" }}
-
           />
         </form>
 

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Note as NoteModel } from "../../models/note";
-import APIManager from "../../services/api";
+import APIManager from "../../network/api";
 import AddEditNoteDialog from "../AddNoteDialog/AddEditNoteDialog";
 import Note from "../Note/Note";
 import styles from "../../styles/NotesPage.module.css";
 import styleUtils from "../../styles/utils.module.css";
-
 
 const NotesPageLoggedInView = () => {
   const [notes, setNotes] = useState<NoteModel[]>([]);
@@ -15,7 +14,6 @@ const NotesPageLoggedInView = () => {
 
   const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
   const [noteToEdit, setNoteToEdit] = useState<NoteModel | null>(null);
-
 
   useEffect(() => {
     async function loadNotes() {
@@ -61,54 +59,55 @@ const NotesPageLoggedInView = () => {
     </div>
   );
 
-  return (<>
-
-    <div className={` ${styles.notesPage}`}>
-      <button
-        className={`mb-4 ${styleUtils.blockCenter} ${styleUtils.flexCenter}`}
-        onClick={() => setShowAddNoteDialog(true)}
-      >
-        <FaPlus />
-        Add new note
-      </button>
-      {notesLoading && (
-        <span className="loading loading-spinner loading-lg"></span>
-      )}
-      {showNotesLoadingError && (
-        <p>Something went wrong. Please refresh the page</p>
-      )}
-      {!notesLoading && !showNotesLoadingError && (
-        <>
-          {notes.length > 0 ? notesGrid : <p>You don't have any note yet</p>}
-        </>
-      )}
-      {showAddNoteDialog && (
-        <AddEditNoteDialog
-          onDismiss={() => setShowAddNoteDialog(false)}
-          onNoteSaved={(newNote) => {
-            setNotes([...notes, newNote]);
-            setShowAddNoteDialog(false);
-          }}
-        />
-      )}
-      {noteToEdit && (
-        <AddEditNoteDialog
-          noteToEdit={noteToEdit}
-          onDismiss={() => setNoteToEdit(null)}
-          onNoteSaved={(updatedNote) => {
-            setNotes(
-              notes.map((existingNote) =>
-                existingNote.id === updatedNote.id
-                  ? updatedNote
-                  : existingNote
-              )
-            );
-            setNoteToEdit(null);
-          }}
-        />
-      )}
-    </div>
-  </>);
-}
+  return (
+    <>
+      <div className={` ${styles.notesPage}`}>
+        <button
+          className={`mb-4 ${styleUtils.blockCenter} ${styleUtils.flexCenter}`}
+          onClick={() => setShowAddNoteDialog(true)}
+        >
+          <FaPlus />
+          Add new note
+        </button>
+        {notesLoading && (
+          <span className="loading loading-spinner loading-lg"></span>
+        )}
+        {showNotesLoadingError && (
+          <p>Something went wrong. Please refresh the page</p>
+        )}
+        {!notesLoading && !showNotesLoadingError && (
+          <>
+            {notes.length > 0 ? notesGrid : <p>You don't have any note yet</p>}
+          </>
+        )}
+        {showAddNoteDialog && (
+          <AddEditNoteDialog
+            onDismiss={() => setShowAddNoteDialog(false)}
+            onNoteSaved={(newNote) => {
+              setNotes([...notes, newNote]);
+              setShowAddNoteDialog(false);
+            }}
+          />
+        )}
+        {noteToEdit && (
+          <AddEditNoteDialog
+            noteToEdit={noteToEdit}
+            onDismiss={() => setNoteToEdit(null)}
+            onNoteSaved={(updatedNote) => {
+              setNotes(
+                notes.map((existingNote) =>
+                  existingNote.id === updatedNote.id
+                    ? updatedNote
+                    : existingNote
+                )
+              );
+              setNoteToEdit(null);
+            }}
+          />
+        )}
+      </div>
+    </>
+  );
+};
 
 export default NotesPageLoggedInView;

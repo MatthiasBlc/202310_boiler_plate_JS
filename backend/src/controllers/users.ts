@@ -16,7 +16,6 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
       },
     })
     res.status(200).json(user);
-
   } catch (error) {
     next(error);
   }
@@ -122,6 +121,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
+
       throw createHttpError(401, "Invalid credentials");
     }
 
@@ -130,6 +130,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
 
 
   } catch (error) {
+
     next(error);
   }
 

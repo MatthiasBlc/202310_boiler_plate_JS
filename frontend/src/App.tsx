@@ -3,7 +3,7 @@ import LoginModal from "./components/LoginModal/LoginModal";
 import NavBar from "./components/Navbar/NavBar";
 import SignUpModal from "./components/SignUpModal/SignUpModal";
 import { User } from "./models/user";
-import APIManager from "./services/api";
+import APIManager from "./network/api";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NotesPage from "./pages/NotesPage";
 import PrivacyPage from "./pages/PrivacyPage";

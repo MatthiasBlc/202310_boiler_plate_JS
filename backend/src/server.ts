@@ -1,9 +1,7 @@
 import app from "./app";
 import env from "./util/validateEnv";
-// import { PrismaClient } from '@prisma/client';
 import prisma from './util/db'
 
-// const prisma = new PrismaClient()
 const port = env.PORT;
 
 

@@ -10,9 +10,6 @@ export const getNotes: RequestHandler = async (req, res, next) => {
 
   try {
     assertIsDefine(authenticatedUserId);
-
-
-
     const notes = await prisma.note.findMany({
       where: {
         authorId: authenticatedUserId,
