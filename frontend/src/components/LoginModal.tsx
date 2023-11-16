@@ -1,32 +1,32 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { User } from "../../models/user";
-import APIManager, { SignUpCredentials } from "../../network/api";
-import styleUtils from "../../styles/utils.module.css";
-import Modal from "../Modal";
-import TextInputField from "../form/TextInputField";
-import { ConflictError } from "../../errors/http_errors";
+import { UnauthorizedError } from "../errors/http_errors";
+import { User } from "../models/user";
+import APIManager, { LoginCredentials } from "../network/api";
+import styleUtils from "../styles/utils.module.css";
+import Modal from "./Modal";
+import TextInputField from "./form/TextInputField";
 
-interface SignUpModalProps {
+interface LoginModalProps {
   onDismiss: () => void;
-  onSignUpSuccessful: (user: User) => void;
+  onLoginSuccessful: (user: User) => void;
 }
 
-const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
+const LoginModal = ({ onDismiss, onLoginSuccessful }: LoginModalProps) => {
   const [errorText, setErrorText] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignUpCredentials>();
+  } = useForm<LoginCredentials>();
 
-  async function onSubmit(credentials: SignUpCredentials) {
+  async function onSubmit(credentials: LoginCredentials) {
     try {
-      const newUser = await APIManager.signUp(credentials);
-      onSignUpSuccessful(newUser);
+      const user = await APIManager.login(credentials);
+      onLoginSuccessful(user);
     } catch (error) {
-      if (error instanceof ConflictError) {
+      if (error instanceof UnauthorizedError) {
         setErrorText(error.message);
       } else {
         alert(error);
@@ -39,7 +39,7 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
     <div className="container">
       <Modal onClose={onDismiss}>
         <h3 className="font-bold text-lg">
-          Sign Up
+          Log In
           <button className="btn btn-primary" onClick={onDismiss}>
             close
           </button>
@@ -62,7 +62,7 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
             <span>{errorText}</span>
           </div>
         )}
-        <form id="signUpForm" onSubmit={handleSubmit(onSubmit)}>
+        <form id="logInForm" onSubmit={handleSubmit(onSubmit)}>
           <TextInputField
             name="username"
             label="Username"
@@ -73,17 +73,6 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
             register={register}
             registerOptions={{ required: "Required" }}
             error={errors.username}
-          />
-          <TextInputField
-            name="email"
-            label="Email"
-            type="email"
-            placeholder="Email"
-            className="input input-bordered w-full max-w-xs"
-            required
-            register={register}
-            registerOptions={{ required: "Required" }}
-            error={errors.email}
           />
           <TextInputField
             name="password"
@@ -102,7 +91,7 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
               className={`btn btn-primary ${styleUtils.width100}`}
               disabled={isSubmitting}
             >
-              Save
+              Log In
             </button>
           </div>
         </form>
@@ -111,4 +100,4 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
   );
 };
 
-export default SignUpModal;
+export default LoginModal;

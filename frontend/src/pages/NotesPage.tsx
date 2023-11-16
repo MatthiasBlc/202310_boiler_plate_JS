@@ -1,5 +1,5 @@
-import NotesPageLoggedInView from "../components/NotesPageLoggedInView/NotesPageLoggedInView";
-import NotesPageLoggedOutView from "../components/NotesPageLoggedOutView/NotesPageLoggedOutView";
+import NotesPageLoggedInView from "../components/NotesPageLoggedInView";
+import NotesPageLoggedOutView from "../components/NotesPageLoggedOutView";
 import { User } from "../models/user";
 
 interface NotesPageProps {
@@ -9,9 +9,7 @@ interface NotesPageProps {
 const NotesPage = ({ loggedInUser }: NotesPageProps) => {
   return (
     <div>
-      <>
-        {loggedInUser ? <NotesPageLoggedInView /> : <NotesPageLoggedOutView />}
-      </>
+      {loggedInUser ? <NotesPageLoggedInView /> : <NotesPageLoggedOutView />}
     </div>
   );
 };

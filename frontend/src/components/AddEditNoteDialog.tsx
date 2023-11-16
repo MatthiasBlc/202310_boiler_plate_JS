@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import Modal from "../Modal";
-import { Note } from "../../models/note";
-import APIManager, { NoteInput } from "../../network/api";
-import TextInputField from "../form/TextInputField";
+import Modal from "./Modal";
+import { Note } from "../models/note";
+import APIManager, { NoteInput } from "../network/api";
+import TextInputField from "./form/TextInputField";
 
 interface AddEditNoteDialogProps {
   noteToEdit?: Note;
@@ -21,8 +21,8 @@ const AddEditNoteDialog = ({
     formState: { isSubmitting },
   } = useForm<NoteInput>({
     defaultValues: {
-      title: noteToEdit?.title || "",
-      text: noteToEdit?.text || "",
+      title: noteToEdit?.title ?? "",
+      text: noteToEdit?.text ?? "",
     },
   });
 
