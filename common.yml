@@ -21,6 +21,7 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - SESSION_SECRET=${SESSION_SECRET}
       - PORT=${PORT}
+      - CORS_ORIGIN=${CORS_ORIGIN}
     volumes:
       - /app/node_modules
       - ./backend/config:/app/config
