@@ -16,7 +16,7 @@ import { requireAuth } from "./middleware/auth";
 const app = express();
 
 // cors needed for dev environment
-app.use(cors({ credentials: true, origin: "http://localhost:8080" }));
+app.use(cors({ credentials: true, origin: env.CORS_ORIGIN }));
 
 app.use(morgan("dev"));
 

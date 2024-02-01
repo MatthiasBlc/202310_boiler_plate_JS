@@ -3,7 +3,7 @@ import { Note } from "../models/note";
 import { User } from "../models/user";
 import { ConflictError, UnauthorizedError } from "../errors/http_errors";
 
-const apiUrl = "http://localhost:3000";
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
 // eslint-disable-next-line react-refresh/only-export-components
 const API = axios.create({ withCredentials: true, baseURL: apiUrl });
 

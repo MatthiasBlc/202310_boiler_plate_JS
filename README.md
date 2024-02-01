@@ -7,7 +7,7 @@ npm run docker:
 npm run docker:upd for detached version  
 npm run docker:down
 
-need a docker compose for dev env
+need a docker-compose.yml for dev env
 
 ```
 services:
@@ -33,3 +33,23 @@ networks:
   proxy:
     external: true
 ```
+
+Content of the .env file:
+
+```
+# Postgres
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+
+# Backend
+PORT=
+DATABASE_URL=postgresql://POSTGRES_USER:POSTGRES_PASSWORD@postgres:5432/POSTGRES_DB?schema=backend
+SESSION_SECRET=
+CORS_ORIGIN=
+
+# Frontend
+VITE_BACKEND_URL=
+```
+
+The postgresDB must exist in Postgres
