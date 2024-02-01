@@ -7,7 +7,7 @@ npm run docker:
 npm run docker:upd for detached version  
 npm run docker:down
 
-need a docker compose for dev env
+need a docker-compose.yml for dev env
 
 ```
 services:
