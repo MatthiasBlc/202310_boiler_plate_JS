@@ -11,10 +11,19 @@ need a docker-compose.yml for dev env
 
 ```
 services:
-  postgresdev:
-    extends:
-      file: common.yml
-      service: postgres
+  postgres:
+    image: postgres:13
+    restart: always
+    container_name: postgres
+    hostname: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    networks:
+      - proxy
     ports:
       - '5432:5432'
   backenddev:
@@ -53,3 +62,5 @@ VITE_BACKEND_URL=
 ```
 
 The postgresDB must exist in Postgres
+
+The docker network "proxy" must exist
