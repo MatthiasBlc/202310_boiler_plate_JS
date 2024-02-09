@@ -31,6 +31,9 @@ function App() {
   return (
     <BrowserRouter>
       <div>
+        <p>Hello, this is a test</p>
+      </div>
+      <div>
         <NavBar
           loggedInUser={loggedInUser}
           onLoginClicked={() => setShowLoginModal(true)}
