@@ -1,13 +1,34 @@
-# README
+# Boiler Plate JS
 
-Docker commands:
+## Table of contents
 
-npm run docker:build  
-npm run docker:  
-npm run docker:upd for detached version  
-npm run docker:down
+- [General info](#general-info)
+- [Technologies](#technologies)
+- [Prerequisites](#Prerequisites)
+- [How to install](#How-to-install)
+- [How to use](#How-to-use)
+- [Features](#features)
+- [Sources](#sources)
 
-need a docker-compose.yml for dev env
+## General info
+
+This project is a complete boiler plate for a fullstack JS app.
+
+## Technologies
+
+![Javascript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![NodeJS](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![ExpressJS](https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Github-Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+
+## Prerequisites
+
+You need to add a docker-compose.yml for dev env:
 
 ```
 services:
@@ -43,7 +64,7 @@ networks:
     external: true
 ```
 
-Content of the .env file:
+You need to add an .env file:
 
 ```
 # Postgres
@@ -61,6 +82,56 @@ CORS_ORIGIN=
 VITE_BACKEND_URL=
 ```
 
-The postgresDB must exist in Postgres
+The postgresDB must exist in Postgres.
 
-The docker network "proxy" must exist
+The docker network "proxy" must exist.
+
+## How to install
+
+1 - Clone this repo on your machine
+2 - Open it in a Terminal
+3 - Run this command to initialize the project :
+
+```
+npm run docker:build
+```
+
+## How to use
+
+1 - Just run the following commands in your Terminal (inside the project's directory):
+for detached version :
+
+```
+npm run docker:upd
+```
+
+Or for non-detached version:
+
+```
+npm run docker:up
+```
+
+And for stop the docker:
+
+```
+npm run docker:down
+```
+
+2 - You can access the project on the url : [http://localhost:8000/](http://localhost:8000/)
+
+That's it!  
+You have now access to this boiler plate! You can modify it as you wish for your projects.
+
+## Features
+
+You can:
+
+- Create an account
+- Login
+- Logout
+- See a complete display of your personnals notes
+- Create/edit/delete a note
+
+## Sources
+
+This app is created and made by [MatthiasBlc](https://github.com/MatthiasBlc).
