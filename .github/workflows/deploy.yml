@@ -12,6 +12,15 @@ env:
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
+
+    92 strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./backend/Dockerfile
+            image: ghcr.io/MatthiasBlc/image1
+          - dockerfile: ./frontend/Dockerfile
+            image: ghcr.io/MatthiasBlc/image2
     permissions:
       contents: read
       packages: write
@@ -51,7 +60,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./frontend
+          file: ${{ matrix.dockerfile }}
           build-args: |
             APP_RELEASE=${{ github.sha }}
           push: ${{ github.event_name != 'pull_request' }}
