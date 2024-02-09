@@ -1,34 +1,61 @@
-# # init file
-# name: Build
+name: Create and publish a Docker image
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - master
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
-#     steps:
-#       - uses: actions/checkout@v1
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
-#       - name: Copy repository contents via scp
-#         uses: appleboy/scp-action@master
-#         env:
-#           HOST: ${{ secrets.HOST }}
-#           USERNAME: ${{ secrets.USERNAME }}
-#           PORT: ${{ secrets.PORT }}
-#           KEY: ${{ secrets.SSHKEY }}
-#         with:
-#           source: "."
-#           target: "/var/www/mywebsite"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-#       - name: Executing remote command
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.HOST }}
-#           USERNAME: ${{ secrets.USERNAME }}
-#           PORT: ${{ secrets.PORT }}
-#           KEY: ${{ secrets.SSHKEY }}
-#           script: ls
+      - name: Login to GitHub Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
+            type=sha
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            APP_RELEASE=${{ github.sha }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Deploy the new image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{ secrets.FOLDER }}/202310_boiler_plate_JS/
+            git pull origin main
+            npm run docker:build
+            npm run docker:upd
