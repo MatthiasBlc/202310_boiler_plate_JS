@@ -1,4 +1,4 @@
-# Boiler Plate JS backtend
+# Boiler Plate JS backend
 
 ## Table of contents
 
