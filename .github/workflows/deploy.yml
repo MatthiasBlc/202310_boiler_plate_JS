@@ -50,16 +50,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
-          build-args: |
-            APP_RELEASE=${{ github.sha }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
           file: ${{ matrix.dockerfile }}
           build-args: |
             APP_RELEASE=${{ github.sha }}
