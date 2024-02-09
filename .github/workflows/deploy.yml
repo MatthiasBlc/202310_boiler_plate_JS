@@ -67,4 +67,5 @@ jobs:
             cd ${{ secrets.FOLDER }}/202310_boiler_plate_JS/
             git pull origin master
             npm run docker:build
+            npm run docker:down
             npm run docker:upd
